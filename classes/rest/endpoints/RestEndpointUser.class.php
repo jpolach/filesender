@@ -308,6 +308,7 @@ END;
      *
      * @throws RestAuthenticationRequiredException
      * @throws RestOwnershipRequiredException
+     * @throws RestAuthSecretCreateWebOnlyException
      */
     public function put($id = null)
     {
@@ -371,7 +372,7 @@ END;
             // secret could replace it with a fresh one, and API access would
             // never end even after the user lost access to the service.
             if (User::getAuthSecretMaxAgeDays() && !Auth::isSP()) {
-                throw new RestAuthenticationRequiredException();
+                throw new RestAuthSecretCreateWebOnlyException();
             }
             $user->authSecretCreate();
         }
